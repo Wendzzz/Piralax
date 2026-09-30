@@ -593,15 +593,326 @@
   pointer-events: none;
 }
 
-.hero__grid {
+.hero__stage {
+  position: relative;
+  padding-bottom: var(--space-8);
+}
+
+/* ---------- Canvas: pieces of a creative project around the headline ---------- */
+.canvas {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(17, 24, 39, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(17, 24, 39, 0.05) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 20%, #000 30%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 55% at 50% 20%, #000 30%, transparent 75%);
+  display: none;
+  container-type: size;
+  pointer-events: none;
+}
+
+/* Only shown where there is room beside the headline. */
+@media (min-width: 1280px) {
+  .canvas {
+    display: block;
+  }
+}
+
+.canvas__piece {
+  position: absolute;
+}
+
+/* Pointer parallax: nearer pieces (higher --d) move further. */
+.canvas__parallax {
+  translate: calc(var(--px, 0) * var(--d) * -1.5px) calc(var(--py, 0) * var(--d) * -1.5px);
+  transition: translate 600ms var(--ease-out);
+}
+
+.canvas__float {
+  animation: bob 9s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+.art-card {
+  position: relative;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+  text-align: left;
+}
+
+.art-title {
+  display: block;
+  color: var(--navy);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.art-sub {
+  display: block;
+  color: var(--grey);
+  font-size: var(--text-xs);
+}
+
+.art-palette {
+  width: 184px;
+}
+
+.art-palette__swatches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: var(--space-3);
+}
+
+.art-palette__swatches span {
+  height: 44px;
+  border-radius: var(--radius-sm);
+}
+
+.art-board {
+  width: 212px;
+}
+
+.art-board__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.art-board__frame {
+  padding: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--offwhite);
+}
+
+.art-board__nav {
+  display: block;
+  width: 40%;
+  height: 5px;
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--neutral-fill);
+}
+
+.art-board__hero {
+  display: grid;
+  gap: 5px;
+  padding: var(--space-2);
+  border-radius: 6px;
+  background: var(--lavender);
+}
+
+.art-board__hero i {
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--indigo-light);
+}
+
+.art-board__hero i + i {
+  width: 60%;
+  background: var(--lavender-strong);
+}
+
+.art-board__hero b {
+  width: 44px;
+  height: 12px;
+  margin-top: 2px;
+  border-radius: var(--radius-full);
+  background: var(--indigo-strong);
+}
+
+.art-board__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.art-board__cards i {
+  height: 26px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--white);
+}
+
+.art-pin {
+  position: absolute;
+  top: 44px;
+  right: -10px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 50% 4px;
+  background: var(--indigo-strong);
+  color: var(--white);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  box-shadow:
+    0 0 0 3px var(--white),
+    var(--shadow-md);
+}
+
+.art-type {
+  width: 168px;
+}
+
+.art-type__aa {
+  margin-bottom: var(--space-1);
+  color: var(--navy);
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.art-approval {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 220px;
+}
+
+.art-approval .status {
+  margin-top: var(--space-1);
+}
+
+/* ---------- Live cursors ---------- */
+.cursor,
+.you-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.cursor svg,
+.you-cursor svg {
+  filter: drop-shadow(0 2px 3px rgba(17, 24, 39, 0.3));
+}
+
+.cursor path,
+.you-cursor path {
+  stroke: var(--white);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.cursor > span,
+.you-cursor > span {
+  margin-top: 18px;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-full);
+  color: var(--white);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cursor--maya path {
+  fill: var(--indigo-strong);
+}
+
+.cursor--maya > span {
+  background: var(--indigo-strong);
+}
+
+.cursor--dana path {
+  fill: #e11d48;
+}
+
+.cursor--dana > span {
+  background: var(--rose-ink);
+}
+
+/* Collaborators drift slowly between the two pieces on their side, never across the text.
+   Paths use container units, so they scale with the hero. */
+.cursor--maya {
+  animation: cursor-maya 12s var(--ease-out) infinite;
+}
+
+.cursor--dana {
+  animation: cursor-dana 14s var(--ease-out) infinite;
+  animation-delay: -5s;
+}
+
+@keyframes cursor-maya {
+  0%,
+  20% {
+    translate: 10cqw 24cqh;
+  }
+  50%,
+  75% {
+    translate: 13cqw 76cqh;
+  }
+  100% {
+    translate: 10cqw 24cqh;
+  }
+}
+
+@keyframes cursor-dana {
+  0%,
+  20% {
+    translate: 86cqw 64cqh;
+  }
+  50%,
+  75% {
+    translate: 89cqw 26cqh;
+  }
+  100% {
+    translate: 86cqw 64cqh;
+  }
+}
+
+/* The visitor's own cursor: the native pointer is hidden over the hero and replaced by a
+   tagged cursor that follows it exactly (desktop only; set up in Hero.jsx). */
+.hero__stage.has-live-cursor,
+.hero__stage.has-live-cursor * {
+  cursor: none;
+}
+
+.you-cursor {
+  z-index: 5;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  will-change: transform;
+}
+
+.you-cursor.is-visible {
+  opacity: 1;
+}
+
+.you-cursor svg {
+  transition: scale var(--dur-fast) var(--ease-out);
+  transform-origin: 3px 2px;
+}
+
+.you-cursor path {
+  fill: var(--navy);
+}
+
+.you-cursor > span {
+  background: var(--navy);
+}
+
+/* A small lift over links and buttons, so it still reads as clickable. */
+.you-cursor.is-over-action svg {
+  scale: 1.15;
 }
 
 .glow--a {
