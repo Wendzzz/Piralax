@@ -392,10 +392,15 @@
 }
 
 .menu-toggle {
-  display: inline-grid;
-  place-items: center;
+  /* Flex centring and no default button padding, so the icon sits dead centre in every browser. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
   width: 44px;
   height: 44px;
+  padding: 0;
+  line-height: 0;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   background: var(--white);
@@ -406,8 +411,9 @@
 }
 
 .menu-toggle span {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
 }
