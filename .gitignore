@@ -26,3 +26,7 @@ dist-ssr
 # Netlify local state and Python caches
 .netlify
 __pycache__/
+
+# Showreel renders and the separate flowsync project stay out of the site repo
+film/out/
+flowsync/
