@@ -78,7 +78,7 @@ export default function Header() {
                 exit={{ opacity: 0, rotate: 45 }}
                 transition={{ duration: 0.15 }}
               >
-                <Icon name={open ? 'close' : 'menu'} size={22} />
+                <Icon name={open ? 'close' : 'menu'} size={24} strokeWidth={2} />
               </motion.span>
             </AnimatePresence>
           </button>

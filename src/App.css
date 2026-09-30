@@ -407,6 +407,18 @@
 
 .menu-toggle span {
   display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+/* A fixed size, so the global max-width on svg can't shrink the icon.
+   The artwork has built-in padding: at 24px the visible lines are 16px wide. */
+.menu-toggle svg {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  max-width: none;
 }
 
 @media (hover: hover) {
