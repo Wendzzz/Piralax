@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Piralax showreel</title>
+    <style>
+      /* Fonts are loaded from local files so every frame renders with the brand typeface. */
+      @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 400; src: url('node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-400-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 500; src: url('node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-500-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 600; src: url('node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-600-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 700; src: url('node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-700-normal.woff2') format('woff2'); }
+      @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 800; src: url('node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-800-normal.woff2') format('woff2'); }
+
+      /* Piralax design tokens (same values as the website). */
+      :root {
+        --navy: #111827; --indigo: #6366f1; --indigo-strong: #4f46e5; --indigo-deep: #4338ca; --indigo-ink: #3730a3;
+        --indigo-light: #a5b4fc; --violet: #7c3aed; --lavender: #eef2ff; --lavender-strong: #e0e7ff;
+        --offwhite: #fafafc; --white: #fff; --grey: #6b7280; --grey-strong: #4b5563; --grey-light: #9ca3af;
+        --sunken: #f5f6fb; --border: rgba(17, 24, 39, 0.08); --border-strong: rgba(17, 24, 39, 0.14);
+        --review-ink: #92400e; --review-tint: #fef3c7; --changes-ink: #991b1b; --changes-tint: #fee2e2;
+        --ok-ink: #065f46; --ok-tint: #d1fae5; --teal-ink: #115e59; --teal-tint: #ccfbf1; --rose-ink: #9f1239; --rose-tint: #ffe4e6;
+        --shadow-md: 0 1px 2px rgba(17, 24, 39, 0.04), 0 12px 32px -12px rgba(17, 24, 39, 0.16);
+        --shadow-lg: 0 2px 4px rgba(17, 24, 39, 0.04), 0 40px 80px -32px rgba(49, 46, 129, 0.3);
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--navy); }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; color: var(--navy); }
+      #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+      .abs { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; will-change: transform, opacity; }
+      .layer { position: absolute; inset: 0; }
+
+      /* ---------- Dark scenes ---------- */
+      #dark { background: var(--navy); }
+      .gl { position: absolute; background: rgba(255, 255, 255, 0.07); }
+      .gl--v { width: 1px; height: 1080px; top: 0; transform-origin: 50% 50%; }
+      .gl--h { height: 1px; width: 1920px; left: 0; transform-origin: 50% 50%; }
+      .glow { position: absolute; border-radius: 50%; }
+      #darkGlow { width: 1100px; height: 1100px; left: 410px; top: -10px; background: radial-gradient(circle, rgba(99, 102, 241, 0.42), transparent 62%); }
+      #darkGlow2 { width: 900px; height: 900px; left: 1150px; top: 380px; background: radial-gradient(circle, rgba(124, 58, 237, 0.28), transparent 62%); }
+
+      #lockup { width: 1920px; height: 1080px; }
+      #mark { left: 668px; top: 404px; width: 136px; height: 136px; }
+      #word { left: 832px; top: 398px; font-size: 128px; font-weight: 800; letter-spacing: -0.045em; color: #fff; line-height: 1.1; white-space: nowrap; }
+      #word span { display: inline-block; }
+      #tagline { left: 0; top: 590px; width: 1920px; text-align: center; font-size: 38px; font-weight: 500; color: #c7cbd6; letter-spacing: -0.01em; }
+
+      .pline { left: 150px; height: 104px; overflow: hidden; }
+      .pline > div { font-size: 80px; font-weight: 800; letter-spacing: -0.045em; color: #fff; line-height: 104px; white-space: nowrap; }
+      .pline em { font-style: normal; color: var(--indigo-light); }
+      .chip-d { display: flex; align-items: center; gap: 18px; padding: 18px 26px 18px 18px; border-radius: 20px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14); white-space: nowrap; }
+      .chip-d .ic { width: 52px; height: 52px; border-radius: 14px; background: rgba(255, 255, 255, 0.08); display: grid; place-items: center; color: #c7d2fe; flex: none; }
+      .chip-d small { display: block; font-size: 18px; font-weight: 600; color: #9ca3af; }
+      .chip-d b { display: block; font-size: 24px; font-weight: 600; color: #fff; }
+      #coreCard { left: 810px; top: 450px; width: 300px; height: 180px; border-radius: 32px; background: #fff; display: grid; place-items: center; box-shadow: 0 40px 80px -24px rgba(0, 0, 0, 0.5); }
+
+      /* ---------- Light scenes ---------- */
+      #light { background: var(--offwhite); }
+      #lightGrid { background-image: linear-gradient(to right, rgba(17, 24, 39, 0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(17, 24, 39, 0.045) 1px, transparent 1px); background-size: 80px 80px; -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 80%); }
+      #lightGlowA { width: 1300px; height: 1300px; left: -300px; top: -500px; background: radial-gradient(circle, rgba(165, 180, 252, 0.5), transparent 62%); }
+      #lightGlowB { width: 1200px; height: 1200px; left: 1100px; top: 200px; background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent 62%); }
+
+      .head { left: 0; top: 104px; width: 1920px; text-align: center; font-size: 64px; font-weight: 800; letter-spacing: -0.045em; color: var(--navy); white-space: nowrap; }
+      .head em { font-style: normal; color: var(--indigo-strong); }
+      .chapter { left: 64px; top: 56px; display: flex; align-items: center; gap: 14px; font-size: 22px; font-weight: 700; color: var(--grey-strong); white-space: nowrap; }
+      .chapter i { width: 10px; height: 10px; border-radius: 50%; background: var(--indigo); display: block; }
+      .chapter span { color: var(--indigo-strong); font-variant-numeric: tabular-nums; }
+      #illus { left: 1520px; top: 1030px; width: 336px; display: flex; justify-content: flex-end; align-items: center; gap: 10px; font-size: 19px; font-weight: 600; color: var(--grey-strong); }
+
+      /* Dashboard window */
+      #win { left: 180px; top: 250px; width: 1560px; height: 770px; border-radius: 28px; background: #fff; border: 1px solid var(--border-strong); box-shadow: var(--shadow-lg); overflow: hidden; }
+      .chrome { position: absolute; left: 0; top: 0; width: 1560px; height: 56px; background: var(--offwhite); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 20px; padding: 0 24px; }
+      .dots { display: flex; gap: 8px; } .dots i { width: 13px; height: 13px; border-radius: 50%; background: #e5e7eb; display: block; }
+      .crumb { font-size: 20px; color: var(--grey); } .crumb b { color: var(--navy); font-weight: 700; } .crumb span { color: var(--grey-light); margin: 0 6px; }
+      .side { position: absolute; left: 0; top: 56px; width: 250px; height: 714px; background: var(--offwhite); border-right: 1px solid var(--border); }
+      .side-t { position: absolute; left: 28px; font-size: 16px; font-weight: 800; letter-spacing: 0.1em; color: var(--grey); }
+      .side-i { position: absolute; left: 14px; width: 222px; height: 48px; border-radius: 12px; display: flex; align-items: center; gap: 10px; padding: 0 12px; font-size: 19px; font-weight: 500; color: var(--grey-strong); white-space: nowrap; }
+      .side-i i { width: 10px; height: 10px; border-radius: 3px; background: #d1d5db; display: block; }
+      .side-i.on { background: var(--lavender); color: var(--indigo-ink); font-weight: 700; } .side-i.on i { background: var(--indigo); }
+      .m-eyebrow { font-size: 19px; font-weight: 600; color: var(--grey); white-space: nowrap; }
+      .m-title { font-size: 36px; font-weight: 800; letter-spacing: -0.03em; white-space: nowrap; }
+      .av { display: grid; place-items: center; border-radius: 50%; font-weight: 800; flex: none; }
+      .av--lg { width: 48px; height: 48px; font-size: 16px; box-shadow: 0 0 0 3px #fff; }
+      .av--sm { width: 32px; height: 32px; font-size: 13px; }
+      .t-indigo { background: var(--lavender-strong); color: var(--indigo-ink); } .t-teal { background: var(--teal-tint); color: var(--teal-ink); }
+      .t-amber { background: var(--review-tint); color: var(--review-ink); } .t-rose { background: var(--rose-tint); color: var(--rose-ink); }
+      .prog-l { font-size: 20px; color: var(--grey); white-space: nowrap; } .prog-l b { color: var(--navy); }
+      .bar { width: 854px; height: 12px; border-radius: 999px; background: var(--lavender); overflow: hidden; }
+      .bar > i { display: block; height: 100%; width: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--indigo), var(--indigo-strong)); transform-origin: 0 50%; }
+      .col { width: 274px; height: 490px; border-radius: 20px; background: var(--sunken); border: 1px solid var(--border); }
+      .col-l { font-size: 20px; font-weight: 700; color: var(--grey-strong); display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+      .col-l span { min-width: 30px; height: 30px; padding: 0 8px; border-radius: 999px; background: #fff; border: 1px solid var(--border); display: grid; place-items: center; font-size: 17px; }
+      .card { width: 246px; height: 126px; padding: 16px; border-radius: 16px; background: #fff; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(17, 24, 39, 0.05); }
+      .card p { font-size: 21px; font-weight: 700; line-height: 1.22; letter-spacing: -0.01em; height: 52px; }
+      .card .meta { position: relative; margin-top: 12px; height: 32px; display: flex; align-items: center; gap: 8px; font-size: 18px; color: var(--grey); white-space: nowrap; }
+      .card .ring { position: absolute; inset: -2px; border-radius: 18px; border: 2.5px solid var(--indigo); box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.18); }
+      .chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; font-size: 16px; font-weight: 800; white-space: nowrap; }
+      .chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+      .chip--review { background: var(--review-tint); color: var(--review-ink); } .chip--ok { background: var(--ok-tint); color: var(--ok-ink); } .chip--changes { background: var(--changes-tint); color: var(--changes-ink); } .chip--progress { background: var(--lavender); color: var(--indigo-ink); }
+      .meta .chip { position: absolute; right: 0; top: 1px; }
+      .panel { position: absolute; left: 1160px; top: 56px; width: 400px; height: 714px; background: #fcfcfe; border-left: 1px solid var(--border); }
+      .p-title { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+      .p-title svg { color: var(--indigo-strong); }
+      .cmt { width: 344px; padding: 18px; border-radius: 16px; background: #fff; border: 1px solid var(--border); display: flex; gap: 14px; }
+      .cmt.new { border-color: var(--indigo-light); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.14); }
+      .cmt .who { font-size: 18px; font-weight: 800; white-space: nowrap; } .cmt .who small { font-size: 16px; font-weight: 500; color: var(--grey); margin-left: 6px; }
+      .cmt .txt { margin-top: 4px; font-size: 20px; line-height: 1.4; color: var(--grey-strong); }
+      .cmt .on { margin-top: 6px; font-size: 17px; font-weight: 700; color: var(--indigo-strong); }
+      .p-file { font-size: 18px; color: var(--grey); white-space: nowrap; } .p-file b { color: var(--navy); }
+      .btn { width: 344px; height: 60px; border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 21px; font-weight: 700; white-space: nowrap; }
+      .btn--go { background: var(--indigo-strong); color: #fff; box-shadow: 0 10px 24px -10px rgba(79, 70, 229, 0.7); }
+      .btn--hover { background: var(--indigo-deep); color: #fff; }
+      .btn--done { background: var(--ok-tint); color: var(--ok-ink); }
+      .toast { width: 380px; height: 76px; border-radius: 18px; background: #fff; border: 1px solid var(--border); box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 14px; padding: 0 18px; }
+      .toast .tk { width: 40px; height: 40px; border-radius: 50%; background: var(--ok-tint); color: var(--ok-ink); display: grid; place-items: center; flex: none; }
+      .toast b { display: block; font-size: 20px; font-weight: 800; white-space: nowrap; } .toast small { display: block; font-size: 17px; color: var(--grey); white-space: nowrap; }
+      .spark { width: 10px; height: 10px; border-radius: 50%; }
+
+      /* Cursors */
+      .cur { width: 260px; height: 80px; transform-origin: 0 0; }
+      .cur svg { position: absolute; left: 0; top: 0; filter: drop-shadow(0 4px 6px rgba(17, 24, 39, 0.3)); }
+      .cur .tag { position: absolute; left: 30px; top: 34px; height: 36px; padding: 0 14px; border-radius: 999px; font-size: 18px; font-weight: 800; color: #fff; display: flex; align-items: center; white-space: nowrap; }
+
+      /* Feature cards */
+      .fcard { width: 520px; height: 640px; border-radius: 28px; background: #fff; border: 1px solid var(--border-strong); box-shadow: var(--shadow-md); overflow: hidden; }
+      .fcard .fv { position: absolute; left: 0; top: 0; width: 520px; height: 380px; background: linear-gradient(180deg, var(--lavender), var(--sunken)); border-bottom: 1px solid var(--border); }
+      .fcard .fc { position: absolute; left: 36px; top: 412px; width: 448px; }
+      .fcard .fnum { font-size: 18px; font-weight: 800; color: var(--indigo-strong); letter-spacing: 0.08em; }
+      .fcard h3 { margin-top: 10px; font-size: 34px; line-height: 1.12; font-weight: 800; letter-spacing: -0.035em; }
+      .fcard .fs { margin-top: 12px; font-size: 21px; line-height: 1.45; color: var(--grey-strong); }
+      .fcard .focus { position: absolute; inset: 0; border-radius: 28px; border: 3px solid var(--indigo-strong); box-shadow: inset 0 0 0 4px rgba(99, 102, 241, 0.12); }
+      .mini { position: absolute; background: #fff; border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-md); }
+      .row { position: absolute; left: 20px; width: 408px; height: 64px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); font-size: 20px; font-weight: 700; white-space: nowrap; }
+      .row .due { font-size: 17px; font-weight: 500; color: var(--grey); }
+      .row .chip { position: absolute; right: 0; }
+      .tl { position: absolute; left: 40px; display: flex; align-items: center; gap: 14px; font-size: 20px; font-weight: 600; color: var(--grey-strong); white-space: nowrap; }
+      .tl .dot { width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid var(--border-strong); background: #fff; display: grid; place-items: center; color: #fff; flex: none; }
+
+      /* Final */
+      #fMark { left: 692px; top: 350px; width: 150px; height: 150px; }
+      #fWord { left: 870px; top: 346px; font-size: 136px; font-weight: 800; letter-spacing: -0.05em; color: var(--navy); white-space: nowrap; line-height: 1.1; }
+      #fWord span { display: inline-block; }
+      #fLine { left: 0; top: 560px; width: 1920px; text-align: center; font-size: 44px; font-weight: 700; letter-spacing: -0.02em; color: var(--grey-strong); }
+      #fLine em { font-style: normal; color: var(--indigo-strong); }
+      #fCta { left: 614px; top: 680px; width: 692px; height: 84px; border-radius: 999px; background: var(--indigo-strong); color: #fff; display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 30px; font-weight: 700; box-shadow: 0 20px 40px -18px rgba(79, 70, 229, 0.8); white-space: nowrap; }
+      #fCta span { opacity: 0.75; font-weight: 500; }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <!-- ============ Dark: intro + problem ============ -->
+      <div id="dark" class="layer">
+        <div id="gridDark" class="layer"></div>
+        <div id="darkGlow" class="glow abs"></div>
+        <div id="darkGlow2" class="glow abs"></div>
+
+        <div id="lockup" class="abs">
+          <svg id="mark" class="abs" viewBox="0 0 32 32" fill="none">
+            <defs>
+              <linearGradient id="mg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#6366F1" /><stop offset="1" stop-color="#4338CA" /></linearGradient>
+            </defs>
+            <rect width="32" height="32" rx="9" fill="url(#mg)" />
+            <path id="markPath" d="M10 11h8a4 4 0 0 1 0 8h-4" stroke="#fff" stroke-width="2.6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" />
+            <circle id="markDot" cx="11" cy="21" r="2.2" fill="#fff" />
+          </svg>
+          <div id="word" class="abs"><span>P</span><span>i</span><span>r</span><span>a</span><span>l</span><span>a</span><span>x</span></div>
+          <div id="tagline" class="abs">Projects, feedback and approvals. Together.</div>
+        </div>
+
+        <div id="pl1" class="pline abs" style="top: 300px"><div>Feedback lost in <em>threads.</em></div></div>
+        <div id="pl2" class="pline abs" style="top: 424px"><div>Files scattered in <em>folders.</em></div></div>
+        <div id="pl3" class="pline abs" style="top: 548px"><div>Approvals stuck in <em>limbo.</em></div></div>
+        <div id="chips"></div>
+
+      </div>
+
+      <!-- ============ Light: product ============ -->
+      <div id="light" class="layer">
+        <div id="lightGrid" class="layer"></div>
+        <div id="lightGlowA" class="glow abs"></div>
+        <div id="lightGlowB" class="glow abs"></div>
+
+        <div id="ch1" class="chapter abs"><i></i><span>01</span> Workspace</div>
+        <div id="ch2" class="chapter abs"><i></i><span>02</span> Review in context</div>
+        <div id="ch3" class="chapter abs"><i></i><span>03</span> Approval</div>
+        <div id="ch4" class="chapter abs"><i></i><span>04</span> Features</div>
+
+        <div id="h1" class="head abs">One shared <em>workspace.</em></div>
+        <div id="h2" class="head abs">Feedback, right <em>where it belongs.</em></div>
+        <div id="h3" class="head abs">Approved. <em>Everyone’s in sync.</em></div>
+        <div id="h4" class="head abs">Everything a client project <em>needs.</em></div>
+
+        <div id="win" class="abs">
+          <div id="wChrome" class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="crumb">Studio Kite <span>/</span> Harbor &amp; Pine <span>/</span> <b>Website redesign</b></span></div>
+          <div class="side">
+            <p id="sT1" class="side-t abs" style="left: 28px; top: 26px">PROJECTS</p>
+            <div id="sI0" class="side-i on abs" style="top: 58px"><i></i>Website redesign</div>
+            <div id="sI1" class="side-i abs" style="top: 110px"><i></i>Brand refresh</div>
+            <div id="sI2" class="side-i abs" style="top: 162px"><i></i>Spring campaign</div>
+            <div id="sI3" class="side-i abs" style="top: 214px"><i></i>Launch deck</div>
+            <p id="sT2" class="side-t abs" style="left: 28px; top: 300px">UPCOMING</p>
+            <div id="sI4" class="side-i abs" style="top: 332px"><i></i>Client review</div>
+            <div id="sI5" class="side-i abs" style="top: 384px"><i></i>Launch prep</div>
+          </div>
+
+          <div id="mHead" class="abs" style="left: 278px; top: 80px; width: 854px; height: 90px">
+            <p class="m-eyebrow">Client · Harbor &amp; Pine</p>
+            <p class="m-title">Website redesign</p>
+          </div>
+          <div id="avs" class="abs" style="left: 950px; top: 94px; width: 190px; height: 48px">
+            <span id="av0" class="av av--lg t-indigo abs" style="left: 0">MR</span>
+            <span id="av1" class="av av--lg t-teal abs" style="left: 40px">JL</span>
+            <span id="av2" class="av av--lg t-amber abs" style="left: 80px">AK</span>
+            <span id="av3" class="av av--lg t-rose abs" style="left: 120px">DP</span>
+          </div>
+          <div id="prog" class="abs" style="left: 278px; top: 178px; width: 854px; height: 44px">
+            <div style="display: flex; justify-content: space-between"><span class="prog-l">Approvals</span><span class="prog-l"><b id="progN">2</b> of 6 approved</span></div>
+            <div class="bar" style="margin-top: 10px"><i id="barFill"></i></div>
+          </div>
+
+          <div id="col0" class="col abs" style="left: 278px; top: 240px"></div>
+          <div id="col1" class="col abs" style="left: 568px; top: 240px"></div>
+          <div id="col2" class="col abs" style="left: 858px; top: 240px"></div>
+          <div id="cl0" class="col-l abs" style="left: 296px; top: 256px">In progress <span id="cn0">3</span></div>
+          <div id="cl1" class="col-l abs" style="left: 586px; top: 256px">In review <span id="cn1">1</span></div>
+          <div id="cl2" class="col-l abs" style="left: 876px; top: 256px">Approved <span id="cn2">2</span></div>
+
+          <div id="cards"></div>
+
+          <div class="panel"></div>
+          <div id="pTitle" class="p-title abs" style="left: 1188px; top: 84px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12Z" /><path d="M9 11h6M9 14h3.5" /></svg>Feedback
+          </div>
+          <div id="cNew" class="cmt new abs" style="left: 1188px; top: 128px">
+            <span class="av av--sm t-amber">AK</span>
+            <div><p class="who">Ana K.<small>just now</small></p><p class="txt">Updated the pricing wireframe with your notes. Ready for review.</p><p class="on">on Pricing page wireframe</p></div>
+          </div>
+          <div id="cOld" class="cmt abs" style="left: 1188px; top: 128px">
+            <span class="av av--sm t-rose">DP</span>
+            <div><p class="who">Dana P.<small>Client · 2h</small></p><p class="txt">Love the palette. Could the About photos feel warmer?</p><p class="on">on About page imagery</p></div>
+          </div>
+          <p id="pFile" class="p-file abs" style="left: 1188px; top: 616px"><b>Pricing page wireframe</b> · Version 04</p>
+          <div id="btnGo" class="btn btn--go abs" style="left: 1188px; top: 666px">Approve version</div>
+          <div id="btnHover" class="btn btn--hover abs" style="left: 1188px; top: 666px">Approve version</div>
+          <div id="btnDone" class="btn btn--done abs" style="left: 1188px; top: 666px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>Version approved
+          </div>
+          <div id="sparks"></div>
+          <div id="toast" class="toast abs" style="left: 300px; top: 632px">
+            <span class="tk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></span>
+            <span><b>Version approved</b><small>Dana P. approved Version 04</small></span>
+          </div>
+        </div>
+
+        <div id="features"></div>
+
+        <div id="fGlow" class="glow abs" style="width: 1400px; height: 1400px; left: 260px; top: -160px; background: radial-gradient(circle, rgba(165, 180, 252, 0.55), transparent 60%)"></div>
+        <svg id="fMark" class="abs" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="9" fill="url(#mg)" /><path d="M10 11h8a4 4 0 0 1 0 8h-4" stroke="#fff" stroke-width="2.6" stroke-linecap="round" /><circle cx="11" cy="21" r="2.2" fill="#fff" /></svg>
+        <div id="fWord" class="abs"><span>P</span><span>i</span><span>r</span><span>a</span><span>l</span><span>a</span><span>x</span></div>
+        <div id="fLine" class="abs">Keep projects moving. <em>Make feedback clearer.</em></div>
+        <div id="fCta" class="abs">Join the waitlist <span>·</span> <span>piralax.netlify.app</span></div>
+
+        <div id="illus" class="abs">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5M12 8h.01" /></svg>Illustrative interface
+        </div>
+      </div>
+
+      <!-- The converged card sits above the wipe, so the light scene opens around it. -->
+      <div id="coreCard" class="abs">
+          <svg width="92" height="92" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="9" fill="url(#mg)" /><path d="M10 11h8a4 4 0 0 1 0 8h-4" stroke="#fff" stroke-width="2.6" stroke-linecap="round" /><circle cx="11" cy="21" r="2.2" fill="#fff" /></svg>
+      </div>
+
+      <!-- Cursors sit above everything -->
+      <div id="curAna" class="cur abs">
+        <svg width="34" height="40" viewBox="0 0 34 40"><path d="M3 2 L3 32 L11 25 L17 38 L22 36 L16 23 L27 23 Z" fill="#F59E0B" stroke="#fff" stroke-width="2.5" stroke-linejoin="round" /></svg>
+        <span class="tag" style="background: #b45309">Ana K.</span>
+      </div>
+      <div id="curDana" class="cur abs">
+        <svg width="34" height="40" viewBox="0 0 34 40"><path d="M3 2 L3 32 L11 25 L17 38 L22 36 L16 23 L27 23 Z" fill="#E11D48" stroke="#fff" stroke-width="2.5" stroke-linejoin="round" /></svg>
+        <span class="tag" style="background: #be123c">Dana P. · Client</span>
+      </div>
+    </div>
+    <script src="film.js"></script>
+  </body>
+</html>

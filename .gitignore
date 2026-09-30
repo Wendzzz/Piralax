@@ -26,3 +26,7 @@ dist-ssr
 # Netlify local state and Python caches
 .netlify
 __pycache__/
+/flowsync
+
+# Showreel renders (large binaries)
+film/out/
