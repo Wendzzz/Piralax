@@ -1,0 +1,242 @@
+/* ------------------------------------------------------------------
+   Theme — the single place for Piralax's shared values.
+   Spacing is on a 4px base; radii 10 / 16 / 24.
+   ------------------------------------------------------------------ */
+:root {
+  /* Brand */
+  --navy: #111827;
+  --navy-soft: #1f2937;
+  --indigo: #6366f1;
+  --indigo-strong: #4f46e5; /* small text + button fills: 6.3:1 on white */
+  --indigo-deep: #4338ca;
+  --indigo-ink: #3730a3;
+  --indigo-light: #a5b4fc;
+  --lavender: #eef2ff;
+  --lavender-strong: #e0e7ff;
+  --offwhite: #fafafc;
+  --white: #ffffff;
+  --grey: #6b7280;
+  --grey-strong: #4b5563;
+  --grey-light: #9ca3af;
+
+  /* Lines */
+  --border: rgba(17, 24, 39, 0.08);
+  --border-strong: rgba(17, 24, 39, 0.14);
+  --border-dark: rgba(255, 255, 255, 0.12);
+
+  /* Status pairs (text on tint) */
+  --review-ink: #92400e;
+  --review-tint: #fef3c7;
+  --changes-ink: #991b1b;
+  --changes-tint: #fee2e2;
+  --approved-ink: #065f46;
+  --approved-tint: #d1fae5;
+  --progress-ink: var(--indigo-ink);
+  --progress-tint: var(--lavender);
+  --review-dot: #f59e0b;
+  --changes-dot: #ef4444;
+  --approved-dot: #10b981;
+
+  /* Avatar pairs */
+  --teal-ink: #115e59;
+  --teal-tint: #ccfbf1;
+  --rose-ink: #9f1239;
+  --rose-tint: #ffe4e6;
+
+  /* Accents for gradients and glows */
+  --violet: #7c3aed;
+  --violet-soft: #8b5cf6;
+  --indigo-glow: rgba(99, 102, 241, 0.45);
+  --violet-glow: rgba(139, 92, 246, 0.32);
+  --lavender-glow: rgba(165, 180, 252, 0.45);
+  --indigo-ring: rgba(99, 102, 241, 0.18);
+  --neutral-fill: #e5e7eb;
+  --neutral-line: #d1d5db;
+  --surface-sunken: #f5f6fb;
+
+
+
+  /* On dark */
+  --on-dark: #ffffff;
+  --on-dark-muted: #9ca3af;
+  --on-dark-error: #fca5a5;
+  --on-dark-success: #6ee7b7;
+
+  /* Spacing — 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --section-y: clamp(56px, 7vw, 96px);
+  --gutter: clamp(20px, 4vw, 32px);
+  --container: 1200px;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.05);
+  --shadow-md: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 24px -8px rgba(17, 24, 39, 0.12);
+  --shadow-lg: 0 2px 4px rgba(17, 24, 39, 0.04), 0 32px 64px -24px rgba(49, 46, 129, 0.28);
+  --shadow-indigo: 0 8px 20px -8px rgba(79, 70, 229, 0.55);
+
+  /* Type */
+  --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 0.9375rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-h3: 1.25rem;
+  --text-h2: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+  --text-h1: clamp(2.5rem, 1.6rem + 4.2vw, 4.5rem);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur-base: 220ms;
+
+  /* Layout */
+  --header-h: 72px;
+}
+
+@media (max-width: 959px) {
+  :root {
+    --header-h: 64px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--offwhite);
+  color: var(--navy);
+  font-family: var(--font);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--indigo-strong);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--lavender-strong);
+  color: var(--navy);
+}
+
+/* Section targets clear the sticky header when scrolled to. */
+[id] {
+  scroll-margin-top: calc(var(--header-h) + var(--space-4));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -100px;
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--on-dark);
+  font-weight: 600;
+  transition: top var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
